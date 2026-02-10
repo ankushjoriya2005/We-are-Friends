@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Friendship Proposal</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Sacramento&family=Poppins:wght@500&display=swap');
+
+    body {
+      margin: 0;
+      background: radial-gradient(circle at center, #001a33, #000 90%);
+      overflow: hidden;
+      font-family: 'Poppins', sans-serif;
+      color: white;
+      text-align: center;
+    }
+
+    canvas {
+      display: block;
+    }
+
+    #nameOverlay {
+      position: absolute;
+      top: 30%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 10vw;
+      color: #00e6e6;
+      opacity: 0;
+      text-shadow: 0 0 15px cyan, 0 0 30px deepskyblue, 0 0 50px lightblue;
+      pointer-events: none;
+      z-index: 5;
+      white-space: nowrap;
+      font-family: 'Sacramento', cursive;
+      animation: floatText 4s ease-in-out infinite alternate;
+    }
+
+    #partnerOverlay {
+      position: absolute;
+      top: 45%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 6vw;
+      color: #ffd700;
+      opacity: 0;
+      text-shadow: 0 0 12px gold, 0 0 25px orange, 0 0 40px yellow;
+      cursor: pointer;
+      z-index: 6;
+      font-weight: 600;
+    }
+
+    #proposalText {
+      position: absolute;
+      bottom: 22%;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 7vw;
+      color: #00ff99;
+      text-shadow: 0 0 20px lime, 0 0 40px greenyellow;
+      opacity: 0;
+      font-family: 'Sacramento', cursive;
+      z-index: 7;
+      white-space: nowrap;
+    }
+
+    #options {
+      position: absolute;
+      bottom: 10%;
+      left: 50%;
+      transform: translateX(-50%);
+      display: none;
+      gap: 20px;
+      z-index: 8;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .btn {
+      font-size: 5vw;
+      padding: 12px 28px;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      font-family: 'Poppins', sans-serif;
+      font-weight: bold;
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+      transition: transform 0.2s, box-shadow 0.3s;
+      min-width: 100px;
+    }
+
+    .btn-yes {
+      background: #00ff99;
+      color: #003300;
+      text-shadow: 0 0 5px #fff;
+    }
+
+    .btn-no {
+      background: #ff4d4d;
+      color: white;
+      text-shadow: 0 0 5px #000;
+    }
+
+    .btn:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 25px rgba(255, 255, 255, 0.8);
+    }
+
+    @keyframes floatText {
+      from {
+        transform: translate(-50%, -52%);
+      }
+
+      to {
+        transform: translate(-50%, -48%);
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div id="nameOverlay">🌟 Ankush Joriya 🌟</div>
+  <div id="partnerOverlay" onclick="revealPartner()">🤝 Tap Here 🤝</div>
+  <div id="proposalText">💌 Will You Be My Friend 💌</div>
+  <div id="options">
+    <button class="btn btn-yes" onclick="choose('yes')">✅ Yes</button>
+    <button class="btn btn-no" onclick="choose('no')">❌ No</button>
+  </div>
+  <canvas id="heartCanvas"></canvas>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script>
+    const nameOverlay = document.getElementById('nameOverlay');
+    const partnerOverlay = document.getElementById('partnerOverlay');
+    const proposalText = document.getElementById('proposalText');
+    const options = document.getElementById('options');
+
+    function revealPartner() {
+      partnerOverlay.innerText = "🤝 Your Friend 🤝";
+      gsap.to(partnerOverlay, { opacity: 1, duration: 1.5, scale: 1.2, ease: 'elastic.out(1,0.5)' });
+      gsap.to(proposalText, {
+        opacity: 1, duration: 2, delay: 1, scale: 1.1, ease: "back.out(1.5)", onComplete: () => {
+          options.style.display = "flex";
+          gsap.from(options, { opacity: 0, duration: 1.5, y: 50, ease: "back.out(1.5)" });
+        }
+      });
+    }
+
+    function choose(answer) {
+      if (answer === 'yes') {
+        proposalText.innerText = "🎉 Yay! We are Friends now 🎉";
+        proposalText.style.color = "#00ffcc";
+      } else {
+        proposalText.innerText = "😢 Maybe next time...";
+        proposalText.style.color = "#ff4d4d";
+      }
+      gsap.to(options, { opacity: 0, duration: 1, onComplete: () => options.style.display = "none" });
+    }
+
+    // Fade in name and partner text
+    window.onload = () => {
+      gsap.to(nameOverlay, { opacity: 1, duration: 2, ease: 'power2.out' });
+      gsap.to(partnerOverlay, { opacity: 1, duration: 2, delay: 1, ease: "power2.inOut" });
+    };
+  </script>
+</body>
+
+</html>
